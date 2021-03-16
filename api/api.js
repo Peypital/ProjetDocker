@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const Pool = require('pg').Pool
+const cors = require("cors")
 
 const app = express()
 
@@ -48,6 +49,8 @@ app.use(
     })
 )
 
+app.use(cors())
+
 app.get('/add', addItem);
 app.get('/get', getItem);
 app.get('/del', delItem);
@@ -56,7 +59,7 @@ app.listen(process.env.PORT, () => {
     console.log(`App running on port ${process.env.PORT}.`)
     pool.query('CREATE TABLE items (id serial PRIMARY KEY, name text)', [], (error, results) => {
     	if (error) {
-	    throw error;
+	    console.error(error);
         }
     })	
 })
